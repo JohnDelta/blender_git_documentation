@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blender Git | Documentation</title>
+  <meta name="description" content="Blender Git brings Git-based version control directly inside Blender. No terminal required." />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png" />
+  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+
+  <!-- Bootstrap 5.3 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg-dark:      #0d1117;
+      --bg-card:      #161b22;
+      --bg-nav:       rgba(13,17,23,0.88);
+      --orange:       #e87d0d;
+      --orange-light: #f97316;
+      --orange-glow:  rgba(232,125,13,0.15);
+      --blue-dark:    #0f2340;
+      --blue-mid:     #2563eb;
+      --blue-light:   #3b82f6;
+      --text-primary: #e2e8f0;
+      --text-muted:   #8b949e;
+      --border:       #30363d;
+      --border-light: #21262d;
+    }
+
+    /* ── Base ── */
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--blue-light); text-decoration: none; }
+    a:hover { color: var(--orange-light); text-decoration: underline; }
+
+    h2 { color: #f0f6fc; font-weight: 700; }
+    h3 { color: #cdd9e5; font-weight: 600; }
+    h4 { color: var(--text-primary); font-weight: 600; }
+
+    /* ── Navbar ── */
+    .navbar-blur {
+      background: var(--bg-nav);
+      backdrop-filter: saturate(1.25) blur(10px);
+      -webkit-backdrop-filter: saturate(1.25) blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-primary) !important;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      color: var(--text-muted) !important;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--text-primary) !important; }
+
+    .btn-buy {
+      background: var(--orange);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.35rem 1rem;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-buy:hover { background: var(--orange-light); color: #fff; transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    .hero {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(232,125,13,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 30%, rgba(37,99,235,0.12) 0%, transparent 55%),
+        linear-gradient(160deg, var(--bg-dark) 0%, var(--blue-dark) 100%);
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-logo {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 40px var(--orange-glow), 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #f0f6fc 30%, var(--orange) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero .tagline {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero .badge-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-hero-primary {
+      background: var(--orange);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 0.65rem 1.75rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-hero-primary:hover {
+      background: var(--orange-light);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(232,125,13,0.35);
+    }
+
+    .btn-hero-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text-primary);
+      font-weight: 600;
+      padding: 0.65rem 1.75rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-hero-outline:hover {
+      border-color: var(--text-muted);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ── Layout ── */
+    .doc-layout { padding-top: 2.5rem; padding-bottom: 4rem; }
+
+    /* ── Sidebar TOC ── */
+    .toc {
+      position: sticky;
+      top: 5.5rem;
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+      padding: 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .toc-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .toc-nav { list-style: none; padding: 0; margin: 0; }
+
+    .toc-nav li { margin-bottom: 0.1rem; }
+
+    .toc-nav a {
+      display: block;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      border-radius: 5px;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .toc-nav a:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+
+    .toc-nav a.active {
+      color: var(--orange);
+      border-left-color: var(--orange);
+      background: rgba(232,125,13,0.08);
+      font-weight: 500;
+    }
+
+    /* ── Sections ── */
+    .doc-section {
+      scroll-margin-top: 5.5rem;
+      padding-top: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .doc-section + .doc-section {
+      border-top: 1px solid var(--border-light);
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #f0f6fc;
+      margin-bottom: 1.25rem;
+    }
+
+    .subsection-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #cdd9e5;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .subsection-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 1.1em;
+      background: var(--orange);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Cards ── */
+    .doc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      height: 100%;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-2px);
+    }
+    .feature-card .icon {
+      font-size: 1.75rem;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .workflow-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      height: 100%;
+      border-top: 3px solid var(--orange);
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .callout-content { flex: 1; font-size: 0.9rem; }
+    .callout-content strong { display: block; margin-bottom: 0.2rem; font-size: 0.95rem; }
+
+    .callout-warning {
+      background: rgba(232,125,13,0.08);
+      border: 1px solid rgba(232,125,13,0.3);
+      border-left: 3px solid var(--orange);
+    }
+    .callout-warning .callout-icon { color: var(--orange); }
+
+    .callout-info {
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.3);
+      border-left: 3px solid var(--blue-mid);
+    }
+    .callout-info .callout-icon { color: var(--blue-light); }
+
+    .callout-danger {
+      background: rgba(220,38,38,0.07);
+      border: 1px solid rgba(220,38,38,0.25);
+      border-left: 3px solid #dc2626;
+    }
+    .callout-danger .callout-icon { color: #f87171; }
+
+    .callout-tip {
+      background: rgba(16,185,129,0.07);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-left: 3px solid #10b981;
+    }
+    .callout-tip .callout-icon { color: #34d399; }
+
+    /* ── Tables ── */
+    .doc-table {
+      background: var(--bg-card);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      width: 100%;
+    }
+    .doc-table thead th {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-table tbody td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+    .doc-table tbody tr:last-child td { border-bottom: none; }
+    .doc-table a { color: var(--blue-light); }
+
+    /* ── Images ── */
+    .doc-img {
+      max-width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .img-wrap {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .img-caption {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ── Videos ── */
+    .doc-video {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      display: block;
+      background: #000;
+    }
+
+    .video-wrap {
+      margin: 1.5rem 0;
+    }
+
+    .video-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* ── Steps ── */
+    .step-list { list-style: none; padding: 0; margin: 1rem 0; counter-reset: steps; }
+    .step-list li {
+      counter-increment: steps;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      align-items: flex-start;
+    }
+    .step-list li::before {
+      content: counter(steps);
+      min-width: 28px;
+      height: 28px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* ── Accordion ── */
+    .accordion-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border) !important;
+      border-radius: 8px !important;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+    }
+    .accordion-button {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .accordion-button:not(.collapsed) {
+      background: rgba(232,125,13,0.08);
+      color: var(--orange);
+      box-shadow: none;
+    }
+    .accordion-button::after {
+      filter: invert(1) brightness(0.8);
+    }
+    .accordion-button:focus { box-shadow: 0 0 0 3px rgba(232,125,13,0.2); }
+    .accordion-body {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+
+    /* ── Badge chips ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+    }
+    .chip.chip-orange { border-color: rgba(232,125,13,0.4); color: var(--orange); background: rgba(232,125,13,0.08); }
+    .chip.chip-blue   { border-color: rgba(37,99,235,0.4);  color: var(--blue-light); background: rgba(37,99,235,0.08); }
+    .chip.chip-green  { border-color: rgba(16,185,129,0.4); color: #34d399; background: rgba(16,185,129,0.08); }
+
+    /* ── kbd ── */
+    kbd {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      padding: 0.1rem 0.45rem;
+    }
+
+    /* ── code ── */
+    code {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: #79c0ff;
+      border-radius: 4px;
+      font-size: 0.85em;
+      padding: 0.1em 0.4em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* ── Feature list ── */
+    .feature-list { list-style: none; padding: 0; margin: 0; }
+    .feature-list li {
+      display: flex;
+      gap: 0.65rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.92rem;
+      align-items: flex-start;
+    }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-list li .bi { color: var(--orange); flex-shrink: 0; margin-top: 0.15rem; }
+
+    /* ── Panel ref sub-headers ── */
+    .panel-ref {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .panel-ref-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    .site-footer .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .site-footer a { color: var(--text-muted); }
+    .site-footer a:hover { color: var(--orange); text-decoration: none; }
+
+    /* ── Mobile tweaks ── */
+    @media (max-width: 991.98px) {
+      .toc { display: none; }
+      .hero { padding: 3rem 1rem 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-blur sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/blender_git_logo.png" width="30" height="30" alt="Blender Git Logo" />
+      Blender Git
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto ms-3 gap-1">
+        <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+        <li class="nav-item"><a class="nav-link" href="#installation">Installation</a></li>
+        <li class="nav-item"><a class="nav-link" href="#getting-started">Getting Started</a></li>
+        <li class="nav-item"><a class="nav-link" href="#panel">Panel</a></li>
+        <li class="nav-item"><a class="nav-link" href="#workflows">Workflows</a></li>
+        <li class="nav-item"><a class="nav-link" href="#qa">Q&amp;A</a></li>
+      </ul>
+      <a class="btn-buy ms-lg-5" href="https://superhivemarket.com/products/atlas-bake" target="_blank" rel="noopener">
+        <span>Product</span>
+        <i class="bi bi-box"></i>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="assets/blender_git_logo.png" alt="Blender Git Logo" class="hero-logo" />
+  <h1>Blender Git</h1>
+  <p class="tagline">Git-based version control directly inside Blender. Commit, branch, merge. No terminal required.</p>
+  <div class="d-flex gap-2 justify-content-center flex-wrap">
+    <span class="badge-pill"><i class="bi bi-box-seam"></i> Blender 5.x</span>
+    <span class="badge-pill"><i class="bi bi-hdd-fill"></i> Git LFS Ready</span>
+    <span class="badge-pill"><i class="bi bi-terminal-dash"></i> No Terminal Required</span>
+    <span class="badge-pill"><i class="bi bi-people-fill"></i> Solo &amp; Team Friendly</span>
+    <span class="badge-pill"><i class="bi bi-github"></i> GitHub · GitLab · Any Remote</span>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT: Sidebar TOC + Content -->
+<div class="container doc-layout">
+  <div class="row">
+
+    <!-- ── Sidebar ── -->
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="toc">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-nav">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#scene-snapshots">Scene Snapshots</a></li>
+          <li><a href="#panel">Panel Reference</a></li>
+          <li><a href="#branch-management">Branch Management</a></li>
+          <li><a href="#history">Commit History</a></li>
+          <li><a href="#conflicts">Merge Conflicts</a></li>
+          <li><a href="#remote-config">Remote &amp; Config</a></li>
+          <li><a href="#workflows">Typical Workflows</a></li>
+          <li><a href="#example">Team Collaboration</a></li>
+          <li><a href="#limitations">Limitations</a></li>
+          <li><a href="#qa">Q&amp;A</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#license">License</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Content ── -->
+    <div class="col-lg-9">
+
+      <!-- 1. Overview -->
+      <section id="overview" class="doc-section">
+        <span class="section-label">Introduction</span>
+        <h2 class="section-title">Overview</h2>
+        <p>Blender Git brings Git-based version control directly inside Blender, with no terminal required for everyday tasks. It gives you a dedicated <strong>Git</strong> tab in the 3D Viewport sidebar, where you can commit your work, manage branches, view history, resolve merge conflicts, and connect to remote repositories. All without leaving Blender.</p>
+        <p>Because <code>.blend</code> files are binary, standard Git cannot tell you what changed inside them. Blender Git partially solves this by capturing a <strong>snapshot</strong> of your scene each time you stage a <code>.blend</code> file. When you look at a change in the panel, you see a plain-English list like <em>"Object 'Cube' moved"</em>, <em>"Material 'Base' shader nodes changed"</em>, <em>"Render resolution changed"</em> , rather than an unreadable binary diff.</p>
+
+        <div class="img-wrap">
+          <img src="assets/591948686-ead2d714-5e40-42c2-887b-7abab6c5b345.png"
+               alt="Blender Git panel showing changes" class="doc-img" style="max-width: 380px;" />
+          <p class="img-caption">The Git panel inside Blender's 3D Viewport sidebar</p>
+        </div>
+
+        <div class="callout callout-warning">
+          <i class="bi bi-exclamation-triangle-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Snapshot limitations</strong>
+            Snapshots provide friendly summaries of scene changes, not a complete low-level record of every internal <code>.blend</code> detail. Staging, unstaging, and discarding work at the file level. You cannot operate on individual scene changes inside a <code>.blend</code>. Conflict resolution also works at the file level: choose one complete version per file.
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Who is this for?</h3>
+        <div class="row g-3 mt-1">
+          <div class="col-md-4">
+            <div class="feature-card">
+              <i class="bi bi-person-fill icon"></i>
+              <h6 class="fw-bold mb-1">Solo Artists</h6>
+              <p class="text-muted small mb-0">A save-point system with meaningful descriptions. Roll back to any earlier state of your project anytime.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <i class="bi bi-people-fill icon"></i>
+              <h6 class="fw-bold mb-1">Small Teams</h6>
+              <p class="text-muted small mb-0">Collaborate on a shared project via GitHub, GitLab, or any Git host without leaving Blender.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <i class="bi bi-clock-history icon"></i>
+              <h6 class="fw-bold mb-1">Anyone who wants history</h6>
+              <p class="text-muted small mb-0">Ever wished you could roll back a Blender project to an earlier state? Now you can.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Prerequisites -->
+      <section id="prerequisites" class="doc-section">
+        <span class="section-label">Requirements</span>
+        <h2 class="section-title">Prerequisites</h2>
+        <p>Before installing the addon, make sure the following tools are in place:</p>
+
+        <table class="doc-table mb-3">
+          <thead>
+            <tr>
+              <th>Requirement</th>
+              <th>Where to get it</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Blender 5.x or later</strong></td>
+              <td><a href="https://blender.org" target="_blank" rel="noopener">blender.org</a></td>
+              <td>Earlier versions are not tested</td>
+            </tr>
+            <tr>
+              <td><strong>Git</strong></td>
+              <td><a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a></td>
+              <td>Must be installed and available system-wide</td>
+            </tr>
+            <tr>
+              <td><strong>Git LFS</strong></td>
+              <td><a href="https://git-lfs.com" target="_blank" rel="noopener">git-lfs.com</a></td>
+              <td>Required. Handles large <code>.blend</code> files efficiently</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-info">
+          <i class="bi bi-info-circle-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Why Git LFS?</strong>
+            Standard Git stores the full history of every changed file. A 200 MB <code>.blend</code> with 50 commits would bloat the repository to gigabytes. Git LFS stores the actual binary files in a separate object store and keeps only small pointer files in the Git history , keeping the repository lean and fast. Git LFS is a <em>separate install</em> from Git itself. After installing, it registers globally and works transparently.
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Installation -->
+      <section id="installation" class="doc-section">
+        <span class="section-label">Setup</span>
+        <h2 class="section-title">Installation</h2>
+
+        <ol class="step-list">
+          <li>Download the addon <code>.zip</code> file.</li>
+          <li>In Blender, go to <strong>Edit &gt; Preferences &gt; Add-ons</strong>.</li>
+          <li>Click <strong>Install</strong> and select the downloaded <code>.zip</code>.</li>
+          <li>Enable the addon by ticking its checkbox.</li>
+        </ol>
+
+        <p>The addon adds a <strong>Git</strong> tab to the 3D Viewport's N-panel. Press <kbd>N</kbd> to open the sidebar if it is not visible.</p>
+
+        <h3 class="subsection-title">First-time Configuration</h3>
+        <p>Open the addon preferences to review the <strong>Requirements</strong> section. It shows whether Blender can find Git and Git LFS, plus the official install locations if either is missing. Install them separately, then restart Blender.</p>
+
+        <div class="img-wrap">
+          <img src="assets/591948301-4aa2dcf6-aef6-409f-bcc6-03cb815be3d2.png"
+               alt="Addon preferences: Requirements section" class="doc-img" />
+          <p class="img-caption">Addon preferences showing Git and Git LFS detection status</p>
+        </div>
+
+        <p>Before committing, set your Git author identity from <strong>Configuration &gt; Set Identity</strong>. Enter your name and email, then save them for the current repository. Enable <strong>Save globally</strong> only if you want the same identity to become your user-wide Git default.</p>
+
+        <div class="img-wrap">
+          <img src="assets/591949388-38957204-700f-426a-929f-04d328f6f4b8.png"
+               alt="Set Identity dialog" class="doc-img" />
+          <p class="img-caption">Configuration → Set Identity dialog</p>
+        </div>
+
+        <div class="callout callout-tip">
+          <i class="bi bi-lightbulb-fill callout-icon"></i>
+          <div class="callout-content">
+            No workflow settings need to be configured. Scene snapshots are always captured automatically when you stage a <code>.blend</code> file.
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Getting Started -->
+      <section id="getting-started" class="doc-section">
+        <span class="section-label">First Steps</span>
+        <h2 class="section-title">Getting Started</h2>
+
+        <h3 class="subsection-title">Starting a New Project</h3>
+        <ol class="step-list">
+          <li>Save your <code>.blend</code> file to the folder where you want the project to live.</li>
+          <li>Open the Git panel. It will prompt: <em>"No Git repository found."</em></li>
+          <li>Click <strong>Initialize Repository</strong>.</li>
+        </ol>
+        <p>The addon creates a Git repository in the same folder as your <code>.blend</code> file, configures Git LFS, prepares <code>.gitignore</code> and <code>.gitattributes</code>, and makes the first commit. You are ready to work.</p>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-01-initialize-repository.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill text-orange"></i> Initializing a new repository</p>
+        </div>
+
+        <div class="img-wrap">
+          <img src="assets/591950286-0a9adaa2-45f5-446a-abd9-098582c78edd.png"
+               alt="Git panel after initialization" class="doc-img" style="max-width: 420px;" />
+          <p class="img-caption">The Git panel after a successful repository initialization</p>
+        </div>
+
+        <h3 class="subsection-title">Joining an Existing Project</h3>
+        <p>If someone has already set up a project on a remote (GitHub, GitLab, etc.):</p>
+        <ol class="step-list">
+          <li>Open Blender <em>before</em> opening any <code>.blend</code> file.</li>
+          <li>Click <strong>Clone it here</strong> (visible when no repository is detected).</li>
+          <li>Enter the repository URL and choose a destination folder.</li>
+          <li>After cloning, open your <code>.blend</code> file from that folder via <strong>File &gt; Open</strong>.</li>
+        </ol>
+        <p>If you already have a local clone, simply open a <code>.blend</code> file from inside that folder and the panel will detect the existing repository automatically.</p>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-03-clone-project.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Cloning an existing project</p>
+        </div>
+      </section>
+
+      <!-- 5. How It Works -->
+      <section id="how-it-works" class="doc-section">
+        <span class="section-label">Architecture</span>
+        <h2 class="section-title">How It Works</h2>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="feature-card">
+              <i class="bi bi-folder-fill icon"></i>
+              <h6 class="fw-bold mb-2">Tracks Your Whole Project</h6>
+              <p class="text-muted small mb-0">When you initialize a repository, Git watches every file in that folder and its subfolders, including <code>.blend</code> files, textures, references, and any other assets. You decide which changes to record and when.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <i class="bi bi-hdd-network-fill icon"></i>
+              <h6 class="fw-bold mb-2">Git LFS for Large Files</h6>
+              <p class="text-muted small mb-0"><code>.blend</code> files are binary. Git LFS stores them in a dedicated object store and places a small text pointer in the Git history. From your perspective it is invisible. Just stage, commit, and switch branches as usual.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <i class="bi bi-camera-fill icon"></i>
+              <h6 class="fw-bold mb-2">Scene Snapshots</h6>
+              <p class="text-muted small mb-0">Each time you stage a <code>.blend</code>, the addon captures a snapshot of the current scene state and stages it alongside the file as a small JSON stored under <code>.blender_git/snapshots/</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Scene Snapshots -->
+      <section id="scene-snapshots" class="doc-section">
+        <span class="section-label">Snapshots</span>
+        <h2 class="section-title">Scene Snapshots</h2>
+        <p>Snapshots are how Blender Git generates human-readable change descriptions for binary <code>.blend</code> files. Every snapshot captures the state of the open file at the moment of staging.</p>
+
+        <div class="img-wrap">
+          <img src="assets/591952370-25658241-50db-4a72-9611-ab849f64b963.png"
+               alt="Changes panel showing readable scene diff" class="doc-img" style="max-width: 420px;" />
+          <p class="img-caption">Readable scene diff generated from snapshots in the Changes panel</p>
+        </div>
+
+        <h3 class="subsection-title">What Gets Recorded</h3>
+
+        <div class="accordion" id="snapshotAccordion">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#snap-objects">
+                <i class="bi bi-box-seam me-2"></i> Objects
+              </button>
+            </h2>
+            <div id="snap-objects" class="accordion-collapse collapse show" data-bs-parent="#snapshotAccordion">
+              <div class="accordion-body">
+                <ul class="mb-0">
+                  <li>Whether each object was added, removed, or modified</li>
+                  <li>Transform: position, rotation, scale</li>
+                  <li>Viewport and render visibility</li>
+                  <li>Parent-child relationships &amp; collection membership</li>
+                  <li>Applied modifiers, material slot assignments, shape keys</li>
+                  <li>Vertex groups, constraints, particle systems, rigid body physics</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#snap-type">
+                <i class="bi bi-layers me-2"></i> Per Object Type
+              </button>
+            </h2>
+            <div id="snap-type" class="accordion-collapse collapse" data-bs-parent="#snapshotAccordion">
+              <div class="accordion-body">
+                <ul class="mb-0">
+                  <li><strong>Meshes:</strong> vertex count, face count, UV map count</li>
+                  <li><strong>Armatures:</strong> bone count</li>
+                  <li><strong>Cameras:</strong> focal length, camera type (perspective / orthographic / panoramic)</li>
+                  <li><strong>Lights:</strong> energy, type (point / sun / spot / area), color</li>
+                  <li><strong>Text objects:</strong> character count</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#snap-anim">
+                <i class="bi bi-film me-2"></i> Animation
+              </button>
+            </h2>
+            <div id="snap-anim" class="accordion-collapse collapse" data-bs-parent="#snapshotAccordion">
+              <div class="accordion-body">
+                <ul class="mb-0">
+                  <li>Keyframe count per object</li>
+                  <li>Number of animated properties (F-Curves)</li>
+                  <li>NLA tracks &amp; drivers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#snap-mat">
+                <i class="bi bi-palette-fill me-2"></i> Materials
+              </button>
+            </h2>
+            <div id="snap-mat" class="accordion-collapse collapse" data-bs-parent="#snapshotAccordion">
+              <div class="accordion-body">
+                <ul class="mb-0">
+                  <li>Whether each material was added or removed</li>
+                  <li>Shader node count &amp; texture image node count</li>
+                  <li>Transparency mode</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#snap-scene">
+                <i class="bi bi-gear-fill me-2"></i> Scene Settings &amp; More
+              </button>
+            </h2>
+            <div id="snap-scene" class="accordion-collapse collapse" data-bs-parent="#snapshotAccordion">
+              <div class="accordion-body">
+                <ul class="mb-0">
+                  <li>Frame range (start / end), FPS</li>
+                  <li>Render engine, resolution, samples (Cycles &amp; EEVEE)</li>
+                  <li>Active camera, world environment, render output format</li>
+                  <li>Collections: objects inside each, sub-collection structure</li>
+                  <li>Linked library file paths &amp; externally referenced image names</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /accordion -->
+
+        <h3 class="subsection-title">Snapshot Rules</h3>
+        <ul class="feature-list">
+          <li><i class="bi bi-check-circle-fill"></i><span><strong>Staged automatically.</strong> When you stage a <code>.blend</code> file, its snapshot is captured and staged alongside it.</span></li>
+          <li><i class="bi bi-check-circle-fill"></i><span><strong>Must be committed.</strong> The snapshot is the "before" state the next time you make changes. If you stage but do not commit, the change view may be incomplete.</span></li>
+          <li><i class="bi bi-check-circle-fill"></i><span><strong>Orphan snapshots are visible.</strong> If a snapshot exists without its <code>.blend</code>, Blender Git shows it as an orphan row. Stage or discard it from the panel.</span></li>
+          <li><i class="bi bi-x-circle-fill" style="color:#f87171"></i><span><strong>Do not edit snapshot files by hand.</strong> Treat them as managed project metadata. Use the panel's controls to resolve any issues.</span></li>
+          <li><i class="bi bi-x-circle-fill" style="color:#f87171"></i><span><strong>Do not add <code>.blender_git/</code> to <code>.gitignore</code>.</strong> Everything in it (especially <code>snapshots/</code>) must be tracked and committed.</span></li>
+          <li><i class="bi bi-check-circle-fill"></i><span><strong>Multi-file projects</strong> are supported. Each <code>.blend</code> file gets its own snapshot in a mirrored subfolder structure.</span></li>
+        </ul>
+      </section>
+
+      <!-- 7. Panel Reference -->
+      <section id="panel" class="doc-section">
+        <span class="section-label">Interface</span>
+        <h2 class="section-title">Panel Reference</h2>
+        <p>The Git panel lives in the <strong>3D Viewport's N-panel</strong>. Press <kbd>N</kbd> to toggle the sidebar. The panel is divided into several sections:</p>
+
+        <div class="panel-ref">
+          <div class="panel-ref-title"><i class="bi bi-tools"></i> Toolbar</div>
+          <ul class="feature-list">
+            <li><i class="bi bi-house-fill"></i><span><strong>Home</strong>: Opens the repository root folder in your system's file explorer.</span></li>
+            <li><i class="bi bi-terminal-fill"></i><span><strong>CMD</strong>: Opens a terminal window at the repository root for advanced Git commands.</span></li>
+            <li><i class="bi bi-gear-fill"></i><span><strong>Configuration</strong>: Access identity, remote settings, <code>.gitignore</code> editor, <code>.gitattributes</code> editor, and credentials info.</span></li>
+            <li><i class="bi bi-arrow-clockwise"></i><span><strong>Refresh</strong>: Manually re-checks the repository status if something appears out of sync.</span></li>
+          </ul>
+        </div>
+
+        <div class="panel-ref">
+          <div class="panel-ref-title"><i class="bi bi-diagram-2-fill"></i> Branch &amp; Remote Status</div>
+          <p class="text-muted small mb-2">Below the toolbar, a box shows the current branch name, the remote name and URL (if configured), and whether you are <strong>ahead</strong>, <strong>behind</strong>, or <strong>up to date</strong> with the remote.</p>
+        </div>
+
+        <div class="callout callout-warning">
+          <i class="bi bi-floppy-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Save Required State</strong>
+            If the current <code>.blend</code> file has unsaved edits, Blender Git pauses the normal workflow until you save. The panel shows a warning with a <strong>Save File</strong> button. Git actions use the on-disk version of the file . Saving first keeps the change list, snapshot, and commit content aligned.
+          </div>
+        </div>
+
+        <div class="panel-ref">
+          <div class="panel-ref-title"><i class="bi bi-send-fill"></i> Commit Section</div>
+          <ul class="feature-list">
+            <li><i class="bi bi-pencil-fill"></i><span><strong>Commit message field</strong>: A description of what you did. Required to commit.</span></li>
+            <li><i class="bi bi-check-lg"></i><span><strong>Commit Staged</strong>: Records staged changes as a new commit.</span></li>
+            <li><i class="bi bi-archive-fill"></i><span><strong>Stash All</strong>: Saves all changes (staged and unstaged) into a temporary stash, leaving the working tree clean.</span></li>
+          </ul>
+        </div>
+
+        <div class="panel-ref">
+          <div class="panel-ref-title"><i class="bi bi-plus-circle-fill"></i> Staged Changes Panel</div>
+          <ul class="feature-list">
+            <li><i class="bi bi-file-earmark-fill"></i><span>Each file row shows a status indicator and the filename.</span></li>
+            <li><i class="bi bi-chevron-right"></i><span>For <code>.blend</code> files with a snapshot, a <strong>chevron</strong> button expands a scrollable list of changes in plain English.</span></li>
+            <li><i class="bi bi-dash-circle-fill"></i><span>Click the <strong>minus</strong> button to unstage a file or folder.</span></li>
+            <li><i class="bi bi-arrow-left-circle-fill"></i><span><strong>Unstage All</strong> moves everything back to the Changes panel.</span></li>
+          </ul>
+        </div>
+
+        <div class="panel-ref">
+          <div class="panel-ref-title"><i class="bi bi-list-check"></i> Changes Panel</div>
+          <ul class="feature-list">
+            <li><i class="bi bi-folder2-open"></i><span>Files displayed in a folder tree. Click a folder name to expand or collapse it.</span></li>
+            <li><i class="bi bi-plus-circle"></i><span><strong>Plus button</strong> on a file or folder stages it (auto-captures the snapshot for <code>.blend</code> files).</span></li>
+            <li><i class="bi bi-trash-fill" style="color:#f87171"></i><span><strong>Trash button</strong> discards all changes and reverts to the last committed state. <em>This cannot be undone.</em></span></li>
+            <li><i class="bi bi-file-earmark-play-fill" style="color: var(--orange)"></i><span><strong>Blender icon</strong> on a <code>.blend</code> row opens that file in a new Blender window.</span></li>
+            <li><i class="bi bi-check2-all"></i><span><strong>Stage All</strong> and <strong>Discard All</strong> apply to all visible changes at once.</span></li>
+          </ul>
+        </div>
+
+        <div class="panel-ref">
+          <div class="panel-ref-title"><i class="bi bi-archive-fill"></i> Stashes Panel</div>
+          <p class="text-muted small mb-2">Collapsed by default. Click the header to expand. Lists all saved stashes with their label and index.</p>
+          <ul class="feature-list">
+            <li><i class="bi bi-play-fill"></i><span><strong>Apply</strong>: Restores a stash's changes to the working tree and reopens the <code>.blend</code> file. Only available when the working tree is clean.</span></li>
+            <li><i class="bi bi-trash-fill" style="color:#f87171"></i><span><strong>Drop</strong>: Permanently deletes a stash entry. A confirmation dialog appears first.</span></li>
+          </ul>
+        </div>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-08-stashes-panel.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Using the Stashes panel</p>
+        </div>
+      </section>
+
+      <!-- 8. Branch Management -->
+      <section id="branch-management" class="doc-section">
+        <span class="section-label">Branching</span>
+        <h2 class="section-title">Branch Management</h2>
+        <p>Access branch actions via the <strong>Branch Actions</strong> button next to the current branch name.</p>
+
+        <ul class="feature-list">
+          <li><i class="bi bi-plus-circle-fill"></i><span><strong>New Branch</strong>: Creates a new branch from the current state and switches to it immediately. Staged, unstaged, and untracked changes remain in place.</span></li>
+          <li><i class="bi bi-arrow-left-right"></i><span><strong>Change Branch</strong>: Switch to a different local or remote branch. Local changes are preserved; conflicts are surfaced via the conflict banner.</span></li>
+          <li><i class="bi bi-intersect"></i><span><strong>Merge Branch</strong>: Merges the selected branch into the current branch. If a conflict is detected, the conflict banner appears.</span></li>
+          <li><i class="bi bi-cloud-download-fill"></i><span><strong>Fetch</strong>: Downloads new commits and branch references from the remote without modifying local files.</span></li>
+          <li><i class="bi bi-arrow-down-circle-fill"></i><span><strong>Pull</strong>: Downloads and applies remote commits to the current branch.</span></li>
+          <li><i class="bi bi-arrow-up-circle-fill"></i><span><strong>Push</strong>: Uploads your local commits to the remote tracking branch.</span></li>
+          <li><i class="bi bi-trash-fill" style="color:#f87171"></i><span><strong>Delete Branch</strong>: Deletes a local branch. Protected names (<code>main</code>, <code>master</code>, <code>develop</code>, <code>dev</code>) cannot be deleted.</span></li>
+          <li><i class="bi bi-clock-history"></i><span><strong>History</strong>: Opens the commit history view.</span></li>
+        </ul>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-04-new-branch.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Creating a new branch and committing work</p>
+        </div>
+
+        <div class="callout callout-info">
+          <i class="bi bi-shield-lock-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Protected Branches</strong>
+            The following branch names cannot be deleted from within the panel as a safeguard: <span class="chip chip-orange me-1">main</span><span class="chip chip-orange me-1">master</span><span class="chip chip-orange me-1">develop</span><span class="chip chip-orange">dev</span>. They can still be deleted via a terminal if genuinely needed.
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Commit History -->
+      <section id="history" class="doc-section">
+        <span class="section-label">History</span>
+        <h2 class="section-title">Commit History</h2>
+        <p>Accessed via <strong>Branch Actions &gt; History</strong>. The history panel lists commits in reverse chronological order, showing the short hash, message, author, and date.</p>
+        <p>Commit details use the same snapshot language as the Changes panels. Snapshot-only entries are visible, and orphan snapshots are labelled with <code>(orphan)</code>.</p>
+
+        <div class="doc-card mb-3">
+          <h6 class="fw-bold mb-2"><i class="bi bi-git me-2 text-orange"></i>Checkout to New Branch</h6>
+          <p class="mb-0 text-muted small">From any commit entry, click <strong>Checkout to New Branch</strong> to prompt for a branch name, then create a branch starting at that commit and switch to it. Requires a clean working tree.</p>
+        </div>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-09-history-view.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Browsing commit history</p>
+        </div>
+      </section>
+
+      <!-- 10. Merge Conflicts -->
+      <section id="conflicts" class="doc-section">
+        <span class="section-label">Conflicts</span>
+        <h2 class="section-title">Merge Conflict Resolution</h2>
+        <p>When a merge produces a conflict, the normal Changes and Commit panels are replaced by a <strong>conflict banner</strong> showing which branches are involved and how many files need resolution.</p>
+
+        <div class="callout callout-danger">
+          <i class="bi bi-exclamation-octagon-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Do not reopen conflicted files normally</strong>
+            While a <code>.blend</code> file is unresolved, opening it normally can disturb the binary conflict state. Use the conflict dialog's inspection buttons. Reopen the conflicted file normally only after the conflict has been resolved.
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Resolution Steps</h3>
+        <ol class="step-list">
+          <li>Click <strong>Resolve Conflicts</strong> to open the conflict dialog.</li>
+          <li>For each conflicted <code>.blend</code> file, use <strong>Open Ours in Blender</strong> and <strong>Open Theirs in Blender</strong> to inspect both versions.</li>
+          <li>Click <strong>Keep Ours</strong> or <strong>Keep Theirs</strong> for each conflicted file. Its companion snapshot follows the same choice.</li>
+          <li>Resolve any snapshot-only conflict rows, including orphan snapshot rows marked with <code>(orphan)</code>.</li>
+          <li>Once all conflicted files have a choice assigned, click <strong>Complete Merge</strong> to finalize and create the merge commit.</li>
+        </ol>
+
+        <p>To abandon the merge entirely, click <strong>Restore to Latest Commit</strong> (Abort Merge) from the conflict banner. The repository returns to the state before the merge.</p>
+
+        <div class="callout callout-info">
+          <i class="bi bi-info-circle-fill callout-icon"></i>
+          <div class="callout-content">
+            Because <code>.blend</code> files are binary, conflicts are resolved per file. You choose one complete version of each conflicted file. There is no partial merge.
+          </div>
+        </div>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-11-resolve-conflicts.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Resolving a merge conflict</p>
+        </div>
+      </section>
+
+      <!-- 11. Remote & Configuration -->
+      <section id="remote-config" class="doc-section">
+        <span class="section-label">Configuration</span>
+        <h2 class="section-title">Remote &amp; Configuration</h2>
+
+        <h3 class="subsection-title">Identity</h3>
+        <p>Open <strong>Configuration &gt; Set Identity</strong> to set the author name and email used for commits. By default, values are saved only to the current repository. Turn on <strong>Save globally</strong> to write them to your user-wide Git config.</p>
+
+        <h3 class="subsection-title">Remote</h3>
+        <p>Open <strong>Configuration &gt; Configure Remote</strong> to:</p>
+        <ul>
+          <li>Add or change the remote URL (e.g. a GitHub or GitLab repository)</li>
+          <li>View the current tracking branch</li>
+        </ul>
+        <p>After adding a remote, use <strong>Fetch</strong> to retrieve its branches, <strong>Pull</strong> to bring in the latest commits, and <strong>Push</strong> to upload your commits.</p>
+
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-02-remote-settings.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Configuring a remote repository</p>
+        </div>
+
+        <h3 class="subsection-title">.gitignore Editor</h3>
+        <p>Lists the current <code>.gitignore</code> entries. Add patterns for files or folders you do not want Git to track (e.g. temporary render output, cache folders). The addon pre-populates sensible defaults for Blender projects on initialization.</p>
+
+        <h3 class="subsection-title">.gitattributes Editor</h3>
+        <p>Controls how Git treats specific file types, including which formats are stored via Git LFS. The defaults cover <code>.blend</code> and common image and video formats. Edit only if you need to add custom file types.</p>
+      </section>
+
+      <!-- 12. Typical Workflows -->
+      <section id="workflows" class="doc-section">
+        <span class="section-label">Workflows</span>
+        <h2 class="section-title">Typical Workflows</h2>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="workflow-card">
+              <h6 class="fw-bold mb-3"><i class="bi bi-person-fill me-2" style="color:var(--orange)"></i>Daily Work: Solo</h6>
+              <ol class="mb-0 ps-3" style="font-size:0.9rem;">
+                <li>Work on your scene.</li>
+                <li>Save the <code>.blend</code> file (<kbd>Ctrl+S</kbd>).</li>
+                <li>Switch to the Git panel and review the Changes list.</li>
+                <li>Click the <strong>+</strong> button on your <code>.blend</code> to stage it (snapshot captured automatically).</li>
+                <li>Type a commit message and click <strong>Commit Staged</strong>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="workflow-card">
+              <h6 class="fw-bold mb-3"><i class="bi bi-archive-fill me-2" style="color:var(--orange)"></i>Saving Work-in-Progress</h6>
+              <ol class="mb-0 ps-3" style="font-size:0.9rem;">
+                <li>Type a short description in the commit message field (it will become the stash label).</li>
+                <li>Click <strong>Stash All</strong>.</li>
+                <li>Your changes are saved and the working tree goes clean.</li>
+                <li>When ready, open the Stashes panel and click <strong>Apply</strong>.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="workflow-card">
+              <h6 class="fw-bold mb-3"><i class="bi bi-diagram-2-fill me-2" style="color:var(--orange)"></i>Experimenting on a Branch</h6>
+              <ol class="mb-0 ps-3" style="font-size:0.9rem;">
+                <li>Make sure your current work is committed (or stashed).</li>
+                <li>Branch Actions &gt; <strong>New Branch</strong>, named e.g. <code>experiment-retopo</code>.</li>
+                <li>Work and commit freely on this branch.</li>
+                <li>If it works: <strong>Merge Branch</strong> back into your main branch.</li>
+                <li>If not: switch back and delete the experiment branch.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="workflow-card">
+              <h6 class="fw-bold mb-3"><i class="bi bi-people-fill me-2" style="color:var(--orange)"></i>Collaborating with a Team</h6>
+              <ol class="mb-0 ps-3" style="font-size:0.9rem;">
+                <li>One person initializes the repo and pushes to a remote.</li>
+                <li>Team members use <strong>Clone it here</strong> to get a local copy.</li>
+                <li>Each person works on their own branch.</li>
+                <li>Use <strong>Fetch / Pull</strong> to stay current; <strong>Push</strong> to share.</li>
+                <li>Open a pull request on your hosting platform, then pull the merged result.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-wrap mt-4">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-10-github-pull-request.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Team collaboration and merging via GitHub</p>
+        </div>
+      </section>
+
+      <!-- 13. Example: Team Collaboration -->
+      <section id="example" class="doc-section">
+        <span class="section-label">Example</span>
+        <h2 class="section-title">Example: Two-Person GitHub Collaboration</h2>
+        <p>This example follows two users working on the same Blender project through GitHub. Both have Git, Git LFS, Blender Git installed, and access to the same GitHub repository.</p>
+
+        <h3 class="subsection-title">1. User A: Initializes the Project</h3>
+        <ol class="step-list">
+          <li>Save the <code>.blend</code> file inside a clean project folder.</li>
+          <li>Open the <strong>Git</strong> tab and click <strong>Initialize Repository</strong>.</li>
+          <li>Blender Git creates the repository, configures Git LFS, prepares <code>.gitignore</code> and <code>.gitattributes</code>, and creates the first commit.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-01-initialize-repository.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Initializing the repository</p>
+        </div>
+
+        <h3 class="subsection-title">2. User A: Uploads to GitHub</h3>
+        <ol class="step-list">
+          <li>Create an empty GitHub repository.</li>
+          <li>Open <strong>Configuration &gt; Configure Remote</strong> and add the GitHub URL.</li>
+          <li>Click <strong>Branch Actions &gt; Push</strong> for the first upload.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-02-remote-settings.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Adding a remote and pushing</p>
+        </div>
+
+        <h3 class="subsection-title">3. User B: Clones the Project</h3>
+        <ol class="step-list">
+          <li>Open Blender before opening any <code>.blend</code> file.</li>
+          <li>Open the <strong>Git</strong> tab and click <strong>Clone it here</strong>.</li>
+          <li>Enter the GitHub repository URL and choose a local folder.</li>
+          <li>Open the cloned <code>.blend</code> from that folder.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-03-clone-project.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Cloning the project</p>
+        </div>
+
+        <h3 class="subsection-title">4. User B: Creates a Branch &amp; Commits</h3>
+        <ol class="step-list">
+          <li>Open <strong>Branch Actions &gt; New Branch</strong> and give it a name.</li>
+          <li>Edit the file, save it, then stage the <code>.blend</code> in the Changes panel.</li>
+          <li>Expand the staged file to review the readable scene diff.</li>
+          <li>Click <strong>Commit Staged</strong>, then <strong>Branch Actions &gt; Push</strong>.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-04-new-branch.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Creating a branch, committing, and pushing</p>
+        </div>
+
+        <h3 class="subsection-title">5. User B: Stashes Temporary Work</h3>
+        <ol class="step-list">
+          <li>Start an experiment that is not ready to commit.</li>
+          <li>Type a short stash label in the commit message field.</li>
+          <li>Click <strong>Stash All</strong>.</li>
+          <li>Later, open <strong>Stashes</strong> and click <strong>Apply</strong> to restore it.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-08-stashes-panel.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Stashing and restoring work</p>
+        </div>
+
+        <h3 class="subsection-title">6. User B: Checks History</h3>
+        <ol class="step-list">
+          <li>Open <strong>Branch Actions &gt; History</strong>.</li>
+          <li>Review commits by message, author, date, and hash.</li>
+          <li>Use <strong>Checkout to New Branch</strong> to continue from an old version.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-09-history-view.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Viewing commit history</p>
+        </div>
+
+        <h3 class="subsection-title">7. User B: Merges into Master</h3>
+        <ol class="step-list">
+          <li>Checkout to master via <strong>Branch Actions &gt; Change Branch</strong>.</li>
+          <li>Click <strong>Merge Branch</strong>, enable "Show remote", and select the work branch.</li>
+          <li>Merge is complete. Master now contains changes from the working branch.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-10-github-pull-request.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Merging changes via pull request</p>
+        </div>
+
+        <h3 class="subsection-title">8. Merge with Conflict</h3>
+        <p>If both users changed the same <code>.blend</code> file on different branches:</p>
+        <ol class="step-list">
+          <li>During merge, Blender Git shows the conflict banner.</li>
+          <li>Click <strong>Resolve Conflicts</strong> and use <strong>Open Ours / Open Theirs</strong> to inspect both versions.</li>
+          <li>Choose <strong>Keep Ours</strong> or <strong>Keep Theirs</strong> for each conflicted file.</li>
+          <li>Resolve any snapshot-only or orphan conflict rows.</li>
+          <li>Click <strong>Complete Merge</strong>.</li>
+        </ol>
+        <div class="video-wrap">
+          <video class="doc-video" autoplay loop muted playsinline>
+            <source src="assets/example-11-resolve-conflicts.webm" type="video/webm" />
+          </video>
+          <p class="video-label"><i class="bi bi-play-circle-fill"></i> Resolving a merge conflict</p>
+        </div>
+      </section>
+
+      <!-- 14. Limitations -->
+      <section id="limitations" class="doc-section">
+        <span class="section-label">Known Limitations</span>
+        <h2 class="section-title">Limitations</h2>
+
+        <div class="callout callout-warning">
+          <i class="bi bi-exclamation-triangle-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Conflict resolution is all-or-nothing per file</strong>
+            Because <code>.blend</code> files are binary, you cannot combine parts of two versions. You choose one complete version of each conflicted file.
+          </div>
+        </div>
+        <div class="callout callout-warning">
+          <i class="bi bi-exclamation-triangle-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Conflicted files should not be reopened before resolution</strong>
+            While a <code>.blend</code> file is unresolved, opening it normally can disturb the binary conflict state. Use the conflict dialog's inspection buttons, resolve the conflict, then open the result normally.
+          </div>
+        </div>
+        <div class="callout callout-warning">
+          <i class="bi bi-exclamation-triangle-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Staging and discarding apply to entire files</strong>
+            Because <code>.blend</code> files are binary, there is no way to include or exclude individual changes within a file. Every staging, unstaging, or discard operation affects the whole file at once.
+          </div>
+        </div>
+        <div class="callout callout-danger">
+          <i class="bi bi-x-octagon-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Git &amp; Git LFS are required</strong>
+            Git LFS is not bundled with Git and must be installed separately from <a href="https://git-lfs.com" target="_blank" rel="noopener">git-lfs.com</a> before initializing a repository. The addon will refuse to initialize without it.
+          </div>
+        </div>
+        <div class="callout callout-info">
+          <i class="bi bi-info-circle-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>Blender 5.x only</strong>
+            The addon is built for Blender 5.x and may not function correctly on earlier versions. Earlier versions are not currently tested.
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. Q&A -->
+      <section id="qa" class="doc-section">
+        <span class="section-label">Help</span>
+        <h2 class="section-title">Q&amp;A</h2>
+
+        <div class="accordion" id="qaAccordion">
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa1">
+                Do I need to know Git to use this?
+              </button>
+            </h2>
+            <div id="qa1" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">No. Everything you need for daily version control: staging, committing, branching, fetching, pulling, pushing, and viewing history — is available as buttons in the panel.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa2">
+                What is Git LFS and do I really need it?
+              </button>
+            </h2>
+            <div id="qa2" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Git LFS (Large File Storage) stores large binary files like <code>.blend</code> and textures in a separate system so your repository history stays small and fast. Without it, every commit that touches a large <code>.blend</code> would duplicate its full size in history. Git LFS is <strong>required</strong> by this addon . Install it from <a href="https://git-lfs.com" target="_blank" rel="noopener">git-lfs.com</a>. It is a free, one-time install.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa3">
+                Will this work with GitHub, GitLab, Bitbucket, or Gitea?
+              </button>
+            </h2>
+            <div id="qa3" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Yes. Any standard Git remote is compatible. You can clone, fetch, pull, and push from within the panel.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa4">
+                I don't see a Git tab in my sidebar.
+              </button>
+            </h2>
+            <div id="qa4" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Make sure the addon is enabled in <strong>Edit &gt; Preferences &gt; Add-ons</strong>. The Git tab lives in the 3D Viewport's N-panel. Press <kbd>N</kbd> to toggle it. If you are in a workspace without a 3D Viewport (such as Video Editing), switch to a layout that includes one.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa5">
+                The panel says "No Git repository found." but I have a repository.
+              </button>
+            </h2>
+            <div id="qa5" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">The addon detects the repository based on the location of the currently open <code>.blend</code> file. If no <code>.blend</code> is open, or if the <code>.blend</code> is not inside the repository folder, the panel cannot find it. Open a <code>.blend</code> from within the repository and the panel will connect automatically.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa6">
+                What happens if a snapshot is missing or orphaned?
+              </button>
+            </h2>
+            <div id="qa6" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">If a snapshot is missing, the matching <code>.blend</code> may show <em>no snapshot</em> until a new staged commit re-establishes the baseline. If a snapshot exists without its <code>.blend</code>, Blender Git shows it as an orphan snapshot row so you can stage or discard it instead of being left with a hidden dirty file.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa7">
+                Why does staging a .blend file take a few seconds?
+              </button>
+            </h2>
+            <div id="qa7" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Git LFS computes a hash of the file and copies it into the local LFS object store. For large files this takes a moment. The operation runs in the background . Blender remains responsive and a progress indicator appears in the panel while it works.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa8">
+                Can multiple people work on the same .blend file at the same time?
+              </button>
+            </h2>
+            <div id="qa8" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Not simultaneously on the same file, which is a fundamental limitation of binary files. Teams should divide work so each person is primarily responsible for different <code>.blend</code> files or branches, and merge at natural milestones.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa9">
+                The change list shows "no snapshot" for a file I've changed many times.
+              </button>
+            </h2>
+            <div id="qa9" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">The file was first committed before the addon was installed, so no baseline snapshot exists in the history. Stage the file and commit once; the panel will capture a snapshot and from that point on the change details will appear normally.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa10">
+                Is my file safe when I switch branches?
+              </button>
+            </h2>
+            <div id="qa10" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Yes, as long as you save before switching. If the current <code>.blend</code> has unsaved edits, Blender Git disables branch switching and shows a <strong>Save File</strong> button first. After saving, switching branches reopens the <code>.blend</code> from the selected branch. If it does not exist on the target branch, Blender opens a new unsaved General file.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa11">
+                Can I push directly from within the Blender Git panel?
+              </button>
+            </h2>
+            <div id="qa11" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Yes. The <strong>Push</strong> button appears in the branch info box and in the Branch Actions menu whenever the current branch has a remote tracking branch. For advanced push options (force push, specific remote, etc.) use the <strong>CMD</strong> button to open a terminal.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa12">
+                What happens to my snapshots when I rename a .blend file?
+              </button>
+            </h2>
+            <div id="qa12" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">The addon automatically moves the companion snapshot to match the new filename whenever a rename is detected via <strong>Save As</strong> in Blender. If files are renamed outside Blender, orphaned snapshots may appear . Discard them in the next staging pass.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#qa13">
+                Can I use this with a project that has many .blend files in subfolders?
+              </button>
+            </h2>
+            <div id="qa13" class="accordion-collapse collapse" data-bs-parent="#qaAccordion">
+              <div class="accordion-body">Yes. The repository tracks the entire folder tree. Each <code>.blend</code> file gets its own snapshot in a mirrored subfolder structure under <code>.blender_git/snapshots/</code>. The change view works for all of them.</div>
+            </div>
+          </div>
+
+        </div><!-- /qaAccordion -->
+      </section>
+
+      <!-- 16. Contact -->
+      <section id="contact" class="doc-section">
+        <span class="section-label">Support</span>
+        <h2 class="section-title">Contact</h2>
+        <p>Questions or issues? Reach out through:</p>
+        <ul class="feature-list">
+          <li><i class="bi bi-envelope-fill"></i><span>Email: <a href="mailto:john.deligiannis1@gmail.com">john.deligiannis1@gmail.com</a></span></li>
+        </ul>
+      </section>
+
+      <!-- 17. License -->
+      <section id="license" class="doc-section">
+        <span class="section-label">Legal</span>
+        <h2 class="section-title">License</h2>
+        <div class="callout callout-info">
+          <i class="bi bi-file-earmark-text-fill callout-icon"></i>
+          <div class="callout-content">
+            <strong>GPL-3.0-or-later</strong>. See the <a href="./LICENSE" target="_blank" rel="noopener">LICENSE</a> file for details.
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /col-lg-9 -->
+  </div><!-- /row -->
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row align-items-start g-4">
+      <div class="col-md-4">
+        <div class="footer-brand">
+          <img src="assets/blender_git_logo.png" width="28" height="28" alt="Blender Git" />
+          Blender Git
+        </div>
+        <p class="mb-0 small">Git-based version control directly inside Blender. No terminal required.</p>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-uppercase fw-bold small mb-2" style="letter-spacing:.08em;">Links</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-1"><a href="#">Product Page</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-uppercase fw-bold small mb-2" style="letter-spacing:.08em;">Requirements</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-1"><a href="https://blender.org" target="_blank" rel="noopener">Blender 5.x</a></li>
+          <li class="mb-1"><a href="https://git-scm.com" target="_blank" rel="noopener">Git</a></li>
+          <li class="mb-1"><a href="https://git-lfs.com" target="_blank" rel="noopener">Git LFS</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="mt-4 mb-3" style="border-color: var(--border);" />
+    <div class="d-flex flex-wrap justify-content-between align-items-center small">
+      <small class="mt-3 text-secondary mb-0">© <span id="year"></span> Designed & Coded by John Deligiannis • Built with Bootstrap • Icons by Font Awesome</small>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // ── Current year ──
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ── IntersectionObserver for active TOC link ──
+  const sections = document.querySelectorAll('section.doc-section');
+  const tocLinks = document.querySelectorAll('.toc-nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        tocLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, {
+    rootMargin: '-10% 0px -75% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(section => observer.observe(section));
+
+  // ── Smooth scroll for all anchor links ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>

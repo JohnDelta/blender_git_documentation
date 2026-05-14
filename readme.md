@@ -512,9 +512,6 @@ The addon detects the repository based on the location of the currently open .bl
 **What happens if a snapshot is missing or orphaned?**
 If a snapshot is missing, the matching `.blend` may show `no snapshot` until a new staged commit re-establishes the baseline. If a snapshot exists without its `.blend`, Blender Git shows it as an orphan snapshot row so you can stage or discard it instead of being left with a hidden dirty file.
 
-**Why does staging a .blend file take a few seconds?**
-Git LFS computes a hash of the file and copies it into the local LFS object store. For large files this takes a moment. The operation runs in the background, Blender remains responsive and a progress indicator appears in the panel while it works.
-
 **Can multiple people work on the same .blend file at the same time?**
 Not simultaneously on the same file, that is currently a fundamental limitation with binary files. Teams should divide work so each person is primarily responsible for different .blend files or branches, and merge at natural milestones.
 
